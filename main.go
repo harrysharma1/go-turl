@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"turl/handler"
 	"turl/storage"
 
@@ -10,9 +11,11 @@ import (
 
 func main() {
 	router := gin.Default()
+	router.LoadHTMLGlob("templates/*")
+
 	router.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "Welcome to URL shortener.",
+		ctx.HTML(http.StatusOK, "index.tmpl", gin.H{
+			"title": "goturl",
 		})
 	})
 
