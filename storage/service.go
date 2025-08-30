@@ -1,13 +1,11 @@
 package storage
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/go-redis/redis/v8"
 )
 
 type Service struct {
@@ -15,7 +13,8 @@ type Service struct {
 }
 
 var service = &Service{}
-var ctx = context.Background()
+
+// var ctx = context.Background()
 
 const CacheTimeout = 2 * time.Hour
 
@@ -26,7 +25,7 @@ func InitialiseStorage() *Service {
 		DB:       0,
 	})
 
-	res, err := client.Ping(ctx).Result()
+	res, err := client.Ping().Result()
 	if err != nil {
 		log.Fatalf("error initialising redis: %v", err)
 	}
@@ -37,14 +36,14 @@ func InitialiseStorage() *Service {
 }
 
 func SaveUrlMapping(shortUrl string, longUrl, userId string) {
-	err := service.redisClient.Set(ctx, shortUrl, longUrl, CacheTimeout)
-	if err != nil {
-		log.Fatalf("error saving key: %v\n shortUrl:%s\nlongUrl:%s\n", err, shortUrl, longUrl)
+	cmd := service.redisClient.Set(shortUrl, longUrl, CacheTimeout)
+	if err := cmd.Err(); err != nil {
+		log.Fatalf("error saving key: %v\n\nshortUrl: %s\nlongUrl: %s\n", err, shortUrl, longUrl)
 	}
 }
 
 func GetInitialUrl(shortUrl string) string {
-	res, err := service.redisClient.Get(ctx, shortUrl).Result()
+	res, err := service.redisClient.Get(shortUrl).Result()
 	if err != nil {
 		log.Fatalf("error retrieving initial url: %v\n shortUrl: %s\n", err, shortUrl)
 	}
