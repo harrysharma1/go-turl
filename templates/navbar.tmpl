@@ -17,6 +17,12 @@
                                     <span>Copied to clipboard!</span>
                                 </div>
                             </div>
+                            <div id="toastFail" class="toast toast-top toast-end hidden">
+                                <div class="alert alert-error">
+                                    <span id="errorMessage"></span>
+                                </div>
+                            </div>
+
                             <h3 class="text-lg font-bold">Your recent go-turl</h3>
                             <div class="divider"></div>
                             <div class="flex flex-col">
@@ -79,6 +85,12 @@
                 }, 5000)
             })
             .catch((err) => {
+                const toastFail = document.getElementById("toastFail")
+                document.getElementById("errorMessage").innerHTML("Error copying to clipboard!")
+                toastFail.classList.remove("hidden")
+                setTimeout(() => {
+                    toastFail.classList.add("hidden")
+                }, 5000)
                 console.error(err.name, err.message)
             }) 
     }
