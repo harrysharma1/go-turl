@@ -1,8 +1,8 @@
 {{ define "body" }}
 <body>
+    {{ template "navbar" .}}
+    <div class="pt-6">
     {{ template "form" .}}
-    {{ range $key, $value := .recent }}
-        <strong>{{ $key }} :</strong> {{ $value }}
-    {{ end }}
+    </div>
 </body>
 {{ end }}

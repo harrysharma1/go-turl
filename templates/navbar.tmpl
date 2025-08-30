@@ -1,0 +1,86 @@
+{{ define "navbar" }}
+<nav class="block w-full bg-white bg-opacity-90 sticky shadow lg:px-8 lg:py-3 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
+    <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
+        <a href="/" class="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold">
+            go-turl
+        </a>
+
+        <div class="hidden lg:block">
+            <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+                
+                <li class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+                    <button class="btn btn-link block mb-2 text-sm text-slate-600" onclick="url_modal.showModal()">open modal</button>
+                    <dialog id="url_modal" class="modal modal-end modal-top">
+                        <div class="modal-box w-1/2">
+                            <div id="toast" class="toast toast-top toast-end hidden">
+                                <div class="alert alert-success">
+                                    <span>Copied to clipboard!</span>
+                                </div>
+                            </div>
+                            <h3 class="text-lg font-bold">Your recent go-turl</h3>
+                            <div class="divider"></div>
+                            <div class="flex flex-col">
+                                {{ range $key, $value := .recent }}
+                                <div class="pt-2"></div>
+                                <div class="card w-full bg-base-100 shadow-sm">
+                                    <div class="card-body">
+                                        <div class="flex flex-row">
+                                            <div class="avatar">
+                                                    <div class="w-16 rounded-full">
+                                                        <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+                                                    </div>
+                                            </div>
+                                            <div class="flex flex-col px-2">
+                                                <h2 class="card-title" style="user-select: none;"> {{ $.host}}{{ $key }}</h2>
+                                                <p class="text-teal-600" style="user-select: none;">{{ $value }}</p>
+                                                 
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex flex-row">
+                                            <div class="justify-end card-actions px-1">
+                                                <a href="{{ $value }}" target="_blank" class="btn btn-outline btn-info">
+                                                    <i class="fa fa-fw fa-share"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="justify-end card-actions px-1">
+                                                <button class="btn btn-outline btn-success" onclick="copy('{{ $.host }}','{{ $key }}')">
+                                                    <i class="fa-solid fa-fw fa-copy"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+                        <form method="dialog" class="modal-backdrop">
+                            <button>close</button>
+                        </form>
+                    </dialog>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+<script>
+    function copy (host, uid){
+        const shortUrl = host + uid
+        navigator.clipboard.writeText(shortUrl)
+            .then(() => {
+                const toast = document.getElementById("toast");
+                toast.classList.remove("hidden");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 5000)
+            })
+            .catch((err) => {
+                console.error(err.name, err.message)
+            }) 
+    }
+</script>
+{{ end }}
