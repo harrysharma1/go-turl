@@ -26,7 +26,7 @@ func main() {
 
 	storage.InitialiseStorage()
 
-	err := router.Run(":8080")
+	err := router.Run(":6969")
 	if err != nil {
 		panic(fmt.Sprintf("Error occurring launching web server: %s", err))
 	}

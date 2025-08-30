@@ -24,7 +24,7 @@ func CreateShortUrl(c *gin.Context) {
 	shortUrl := urlshortener.ShortLinkGeneration(model.LongUrl, model.UserId)
 	storage.SaveUrlMapping(shortUrl, model.LongUrl, model.UserId)
 
-	host := "http://localhost:8080/"
+	host := "http://localhost:6969/"
 	c.JSON(200, gin.H{
 		"message":   "short url created successfully",
 		"short_url": host + shortUrl,
