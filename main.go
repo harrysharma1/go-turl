@@ -11,7 +11,6 @@ import (
 func main() {
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
-
 	router.GET("/", func(ctx *gin.Context) {
 		handler.HandleAllRecentEntries(ctx)
 	})

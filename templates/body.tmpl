@@ -1,0 +1,8 @@
+{{ define "body" }}
+<body>
+    {{ template "form" .}}
+    {{ range $key, $value := .recent }}
+        <strong>{{ $key }} :</strong> {{ $value }}
+    {{ end }}
+</body>
+{{ end }}

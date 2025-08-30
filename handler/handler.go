@@ -35,13 +35,17 @@ func CreateShortUrl(c *gin.Context) {
 
 func HandleAllRecentEntries(c *gin.Context) {
 	res := storage.GetAllRecentUrlMappings()
+
 	for key, val := range res {
+
 		fmt.Printf("key: %s -> long url: %s\n -> short url: %s%s\n", key, val, host, key)
 	}
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{
+	c.HTML(http.StatusOK, "index", gin.H{
 		"title":  "Main website",
 		"recent": res,
+		"host":   host,
 	})
+
 }
 
 func HandleShortUrlRedirect(c *gin.Context) {
