@@ -1,0 +1,40 @@
+{{ define "uuid" }}
+<div class="relative flex w-full max-w-[32rem] flex-col rounded-lg bg-white border border-slate-200 shadow-sm">
+    <div class="p-6">
+        <button class="btn btn-outline btn-secondary" onclick="generateUuid4()">
+            <i class="fa-solid fa-shuffle"></i>
+        </button>
+        <div class="pt-1"></div>
+        <p class="hidden" id="uuid4"></p>
+        <div class="pt-1"></div>
+        <div class="flex flex-row">
+            <button class="btn btn-outline btn-success" onclick="copyUuid4()">
+                  <i class="fa-solid fa-fw fa-copy"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const uuid4element = document.getElementById("uuid4")
+    function generateUuid4(){
+        let uuid4 = self.crypto.randomUUID();
+        uuid4element.innerHTML = uuid4
+        uuid4element.classList.remove("hidden")
+    }
+
+    function copyUuid4(){
+        navigator.clipboard.writeText(uuid4element.innerHTML)
+        .then(() =>{
+                const toast = document.getElementById("toastMain");
+                toast.classList.remove("hidden");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 5000)
+        })
+        .catch((err) =>{
+            console.error(err.name, err.message)
+        })
+    }
+</script>
+{{ end }}

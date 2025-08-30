@@ -4,7 +4,16 @@
         <a href="/" class="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold">
             go-turl
         </a>
-
+        <div id="toastMain" class="toast toast-top toast-end hidden">
+            <div class="alert alert-success">
+                <span>Copied to clipboard!</span>
+            </div>
+        </div>
+        <div id="toastMainFail" class="toast toast-top toast-end hidden">
+            <div class="alert alert-error">
+                <span id="errorMessage"></span>
+            </div>
+        </div>
         <div class="hidden lg:block">
             <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
                 
@@ -86,7 +95,7 @@
             })
             .catch((err) => {
                 const toastFail = document.getElementById("toastFail")
-                document.getElementById("errorMessage").innerHTML("Error copying to clipboard!")
+                document.getElementById("errorMessage").innerHTML = "Error copying to clipboard!"
                 toastFail.classList.remove("hidden")
                 setTimeout(() => {
                     toastFail.classList.add("hidden")
