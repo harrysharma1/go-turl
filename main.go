@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"turl/handler"
 	"turl/storage"
 
@@ -14,9 +13,7 @@ func main() {
 	router.LoadHTMLGlob("templates/*")
 
 	router.GET("/", func(ctx *gin.Context) {
-		ctx.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title": "goturl",
-		})
+		handler.HandleAllRecentEntries(ctx)
 	})
 
 	router.POST("/create-short-url", func(ctx *gin.Context) {

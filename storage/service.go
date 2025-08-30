@@ -49,3 +49,21 @@ func GetInitialUrl(shortUrl string) string {
 	}
 	return res
 }
+
+func GetAllRecentUrlMappings() map[string]string {
+	res := make(map[string]string)
+	iter := service.redisClient.Scan(0, "*", 0).Iterator()
+
+	for iter.Next() {
+		key := iter.Val()
+		val, err := service.redisClient.Get(key).Result()
+		if err == nil {
+			res[key] = val
+		}
+	}
+	if err := iter.Err(); err != nil {
+		log.Printf("error iterating redis keys: %s", err)
+	}
+
+	return res
+}
