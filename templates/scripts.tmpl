@@ -65,7 +65,7 @@
         .then(urls => {
             const container = document.querySelector("#url_modal .flex.flex-col");
             container.innerHTML = "";
-            Object.entries(urls).forEach(([key, value]) =>{
+            urls.forEach(entry =>{
                 container.innerHTML += `
                     <div class="pt-2"></div>
                         <div class="card w-full bg-base-100 shadow-sm">
@@ -77,27 +77,27 @@
                                             </div>
                                     </div>
                                     <div class="flex flex-col px-2">
-                                        <h2 class="card-title noselect"> {{ .host }}${key}</h2>
-                                        <p class="text-teal-600 noselect">${value}</p>
-                                            
+                                        <h2 class="card-title noselect"> {{ .host }}${entry.key}</h2>
+                                        <p class="text-teal-600 noselect">${entry.value}</p>
+                                          <p class="text-xs text-gray-500">Created: ${entry.elapsed} ago</p> 
                                     </div>
                                 </div>
                                 
                                 <div class="flex flex-row">
                                     <div class="justify-end card-actions px-1">
-                                        <a href="${value}" target="_blank" class="btn btn-outline btn-info">
+                                        <a href="${entry.value}" target="_blank" class="btn btn-outline btn-info">
                                             <i class="fa fa-fw fa-share"></i>
                                         </a>
                                     </div>
 
                                     <div class="justify-end card-actions px-1">
-                                        <button class="btn btn-outline btn-success" onclick="copy('{{ .host }}','${key}')">
+                                        <button class="btn btn-outline btn-success" onclick="copy('{{ .host }}','${entry.key}')">
                                             <i class="fa-solid fa-fw fa-copy"></i>
                                         </button>
                                     </div>
 
                                     <div class ="justify-end card-actions px-1">
-                                        <button class="btn btn-outline btn-error" onclick="deleteShortUrl('${key}', this)">
+                                        <button class="btn btn-outline btn-error" onclick="deleteShortUrl('${entry.key}', this)">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </div>
@@ -108,5 +108,8 @@
             })
         })
     }
+    document.addEventListener("DOMContentLoaded", function(){
+        updateRecentUrls();
+    })
 </script>
 {{ end }}

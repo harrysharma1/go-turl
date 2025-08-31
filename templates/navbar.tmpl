@@ -29,45 +29,6 @@
                             <h3 class="text-lg font-bold">Your recent go-turl</h3>
                             <div class="divider"></div>
                             <div class="flex flex-col">
-                                {{ range $key, $value := .recent }}
-                                <div class="pt-2"></div>
-                                <div class="card w-full bg-base-100 shadow-sm">
-                                    <div class="card-body">
-                                        <div class="flex flex-row">
-                                            <div class="avatar">
-                                                    <div class="w-16 rounded-full">
-                                                        <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
-                                                    </div>
-                                            </div>
-                                            <div class="flex flex-col px-2">
-                                                <h2 class="card-title noselect"> {{ $.host}}{{ $key }}</h2>
-                                                <p class="text-teal-600 noselect">{{ $value }}</p>
-                                                 
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="flex flex-row">
-                                            <div class="justify-end card-actions px-1">
-                                                <a href="{{ $value }}" target="_blank" class="btn btn-outline btn-info">
-                                                    <i class="fa fa-fw fa-share"></i>
-                                                </a>
-                                            </div>
-
-                                            <div class="justify-end card-actions px-1">
-                                                <button class="btn btn-outline btn-success" onclick="copy('{{ $.host }}','{{ $key }}')">
-                                                    <i class="fa-solid fa-fw fa-copy"></i>
-                                                </button>
-                                            </div>
-
-                                            <div class ="justify-end card-actions px-1">
-                                                <button class="btn btn-outline btn-error" onclick="deleteShortUrl('{{ $key }}', this)">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{ end }}
                             </div>
                         </div>
                         <form method="dialog" class="modal-backdrop">

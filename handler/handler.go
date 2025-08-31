@@ -42,7 +42,25 @@ func HandleAllRecentEntries(ctx *gin.Context) {
 
 func HandleAllRecentEntriesJson(ctx *gin.Context) {
 	res := storage.GetAllRecentUrlMappings()
-	ctx.JSON(http.StatusOK, res)
+	type UrlEntry struct {
+		Key     string `json:"key"`
+		Value   string `json:"value"`
+		Elapsed string `json:"elapsed"`
+	}
+	var urlEntries []UrlEntry
+	for key, value := range res {
+		elapsed, err := storage.GetTimeSinceCreation(key)
+		elapsedStr := ""
+		if err == nil {
+			elapsedStr = elapsed.String()
+		}
+		urlEntries = append(urlEntries, UrlEntry{
+			Key:     key,
+			Value:   value,
+			Elapsed: elapsedStr,
+		})
+	}
+	ctx.JSON(http.StatusOK, urlEntries)
 }
 
 func HandleDeleteUrlById(ctx *gin.Context) {

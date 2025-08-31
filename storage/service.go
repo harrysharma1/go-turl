@@ -16,7 +16,7 @@ var service = &Service{}
 
 // var ctx = context.Background()
 
-const CacheTimeout = 2 * time.Hour
+const CacheTimeout = 5 * time.Hour
 
 func InitialiseStorage() *Service {
 	client := redis.NewClient(&redis.Options{
@@ -37,6 +37,8 @@ func InitialiseStorage() *Service {
 
 func SaveUrlMapping(shortUrl string, longUrl, userId string) {
 	cmd := service.redisClient.Set(shortUrl, longUrl, CacheTimeout)
+	time := service.redisClient.Time()
+	fmt.Println(time.String())
 	if err := cmd.Err(); err != nil {
 		log.Fatalf("error saving key: %v\n\nshortUrl: %s\nlongUrl: %s\n", err, shortUrl, longUrl)
 	}
@@ -48,6 +50,19 @@ func GetInitialUrl(shortUrl string) string {
 		log.Fatalf("error retrieving initial url: %v\n shortUrl: %s\n", err, shortUrl)
 	}
 	return res
+}
+
+func GetTimeSinceCreation(key string) (time.Duration, error) {
+	ttl, err := service.redisClient.TTL(key).Result()
+	if err != nil {
+		return 0, err
+	}
+
+	if ttl < 0 {
+		return 0, fmt.Errorf("key has no expiration or does not exist")
+	}
+
+	return CacheTimeout - ttl, nil
 }
 
 func GetAllRecentUrlMappings() map[string]string {
