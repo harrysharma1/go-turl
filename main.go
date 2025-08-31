@@ -23,6 +23,9 @@ func main() {
 		handler.HandleShortUrlRedirect(ctx)
 	})
 
+	router.GET("/favicon.ico", func(c *gin.Context) {
+		c.Status(204) // No Content, or serve a real favicon if you want
+	})
 	storage.InitialiseStorage()
 
 	err := router.Run(":6969")

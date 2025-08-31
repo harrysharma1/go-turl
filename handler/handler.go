@@ -15,27 +15,22 @@ type UrlModel struct {
 	UserId  string `json:"user_id" binding:"required"`
 }
 
-func CreateShortUrl(c *gin.Context) {
-	var model UrlModel
+func CreateShortUrl(ctx *gin.Context) {
+	// var model UrlModel
 
-	if err := c.ShouldBindJSON(&model); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	longUrl := ctx.Request.FormValue("longUrl")
+	uid := ctx.Request.FormValue("uid")
 
-	shortUrl := urlshortener.ShortLinkGeneration(model.LongUrl, model.UserId)
-	storage.SaveUrlMapping(shortUrl, model.LongUrl, model.UserId)
+	shortUrl := urlshortener.ShortLinkGeneration(longUrl, uid)
+	storage.SaveUrlMapping(shortUrl, longUrl, uid)
 
-	c.JSON(200, gin.H{
-		"message":   "short url created successfully",
-		"short_url": host + shortUrl,
-	})
+	ctx.Redirect(http.StatusFound, "/")
 }
 
-func HandleAllRecentEntries(c *gin.Context) {
+func HandleAllRecentEntries(ctx *gin.Context) {
 	res := storage.GetAllRecentUrlMappings()
 
-	c.HTML(http.StatusOK, "index", gin.H{
+	ctx.HTML(http.StatusOK, "index", gin.H{
 		"title":  "Main website",
 		"recent": res,
 		"host":   host,

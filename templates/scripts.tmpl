@@ -1,0 +1,45 @@
+{{ define "scripts" }}
+<script>
+    function copy (host, uid){
+        const shortUrl = host + uid
+        navigator.clipboard.writeText(shortUrl)
+            .then(() => {
+                const toast = document.getElementById("toast");
+                toast.classList.remove("hidden");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 3000)
+            })
+            .catch((err) => {
+                const toastFail = document.getElementById("toastFail")
+                document.getElementById("errorMessage").innerHTML = "Error copying to clipboard!"
+                toastFail.classList.remove("hidden")
+                setTimeout(() => {
+                    toastFail.classList.add("hidden")
+                }, 5000)
+                console.error(err.name, err.message)
+            }) 
+    }
+
+    const uuid4element = document.getElementById("uuid4")
+    function generateUuid4(){
+        let uuid4 = self.crypto.randomUUID();
+        uuid4element.innerHTML = uuid4
+        uuid4element.classList.remove("hidden")
+    }
+
+    function copyUuid4(){
+        navigator.clipboard.writeText(uuid4element.innerHTML)
+        .then(() =>{
+                const toast = document.getElementById("toastMain");
+                toast.classList.remove("hidden");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 3000)
+        })
+        .catch((err) =>{
+            console.error(err.name, err.message)
+        })
+    }    
+</script>
+{{ end }}

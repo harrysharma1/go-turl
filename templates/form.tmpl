@@ -1,7 +1,7 @@
 {{ define "form" }}
 <div class="relative flex w-full max-w-[32rem] flex-col rounded-lg bg-white border border-slate-200 shadow-sm">
     <div class="p-6">
-        <form class="mt-8 flex flex-col">
+        <form class="mt-8 flex flex-col" method="post" action="/create-short-url">
             <div class="w-full max-w-sm min-w-[300px]">
                 <label for = "longUrl" class="block mb-2 text-sm text-slate-600"> Long URL</label>
                 <input
