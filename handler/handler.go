@@ -38,8 +38,17 @@ func HandleAllRecentEntries(ctx *gin.Context) {
 
 }
 
-func HandleShortUrlRedirect(c *gin.Context) {
-	shortUrl := c.Param("shortUrl")
+func HandleDeleteUrlById(ctx *gin.Context) {
+	uuid := ctx.Param("uuid")
+	storage.DeleteUrlMappingById(uuid)
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": "deleted",
+	})
+}
+
+func HandleShortUrlRedirect(ctx *gin.Context) {
+	shortUrl := ctx.Param("shortUrl")
 	initialUrl := storage.GetInitialUrl(shortUrl)
-	c.Redirect(302, initialUrl)
+	ctx.Redirect(302, initialUrl)
 }

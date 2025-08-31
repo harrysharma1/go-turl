@@ -46,8 +46,8 @@
                                                     </div>
                                             </div>
                                             <div class="flex flex-col px-2">
-                                                <h2 class="card-title" style="user-select: none;"> {{ $.host}}{{ $key }}</h2>
-                                                <p class="text-teal-600" style="user-select: none;">{{ $value }}</p>
+                                                <h2 class="card-title noselect"> {{ $.host}}{{ $key }}</h2>
+                                                <p class="text-teal-600 noselect">{{ $value }}</p>
                                                  
                                             </div>
                                         </div>
@@ -62,6 +62,12 @@
                                             <div class="justify-end card-actions px-1">
                                                 <button class="btn btn-outline btn-success" onclick="copy('{{ $.host }}','{{ $key }}')">
                                                     <i class="fa-solid fa-fw fa-copy"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class ="justify-end card-actions px-1">
+                                                <button class="btn btn-outline btn-error" onclick="deleteShortUrl('{{ $key }}', this)">
+                                                    <i class="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
                                         </div>

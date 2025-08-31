@@ -19,6 +19,10 @@ func main() {
 		handler.CreateShortUrl(ctx)
 	})
 
+	router.POST("/delete-short-url/:uuid", func(ctx *gin.Context) {
+		handler.HandleDeleteUrlById(ctx)
+	})
+
 	router.GET("/:shortUrl", func(ctx *gin.Context) {
 		handler.HandleShortUrlRedirect(ctx)
 	})

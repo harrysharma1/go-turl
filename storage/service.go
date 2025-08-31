@@ -67,3 +67,9 @@ func GetAllRecentUrlMappings() map[string]string {
 
 	return res
 }
+
+func DeleteUrlMappingById(uuid string) {
+	res := service.redisClient.Del(uuid)
+	fmt.Println(res.Name())
+
+}
