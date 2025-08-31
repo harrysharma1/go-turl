@@ -24,7 +24,9 @@ func CreateShortUrl(ctx *gin.Context) {
 	shortUrl := urlshortener.ShortLinkGeneration(longUrl, uid)
 	storage.SaveUrlMapping(shortUrl, longUrl, uid)
 
-	ctx.Redirect(http.StatusFound, "/")
+	ctx.JSON(http.StatusOK, gin.H{
+		"status": "created",
+	})
 }
 
 func HandleAllRecentEntries(ctx *gin.Context) {
