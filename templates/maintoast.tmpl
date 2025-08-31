@@ -1,0 +1,25 @@
+{{ define "maintoasts" }}
+<!-- Main Created Toast -->
+<div id="toastMainCreated" class="toast toast-top toast-end hidden z-[10000]">
+    <div class="alert alert-success">
+        <span>Created URL entry!</span>
+    </div>
+</div>
+<div id="toastMainFailCreated" class="toast toast-top toast-end hidden z-[10000]">
+    <div class="alert alert-error">
+        <span id="errorMessage"></span>
+    </div>
+</div>
+
+<!-- Main Copy Toast -->
+<div id="toastMain" class="toast toast-top toast-end hidden z-[10000]">
+    <div class="alert alert-success">
+        <span>Copied to clipboard!</span>
+    </div>
+</div>
+<div id="toastMainFail" class="toast toast-top toast-end hidden z-[10000]">
+    <div class="alert alert-error">
+        <span id="errorMessage"></span>
+    </div>
+</div>
+{{ end }}

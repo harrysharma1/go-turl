@@ -1,19 +1,11 @@
 {{ define "navbar" }}
+
 <nav class="block w-full bg-white bg-opacity-90 sticky shadow lg:px-8 lg:py-3 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
     <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
         <a href="/" class="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold">
             go-turl
         </a>
-        <div id="toastMain" class="toast toast-top toast-end hidden">
-            <div class="alert alert-success">
-                <span>Copied to clipboard!</span>
-            </div>
-        </div>
-        <div id="toastMainFail" class="toast toast-top toast-end hidden">
-            <div class="alert alert-error">
-                <span id="errorMessage"></span>
-            </div>
-        </div>
+
         <div class="hidden lg:block">
             <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
                 
@@ -21,6 +13,8 @@
                     <button class="btn btn-link block mb-2 text-sm text-slate-600" onclick="url_modal.showModal()">open modal</button>
                     <dialog id="url_modal" class="modal modal-end modal-top">
                         <div class="modal-box w-1/2">
+
+                            <!-- Modal Copy Toast -->
                             <div id="toast" class="toast toast-top toast-end hidden">
                                 <div class="alert alert-success">
                                     <span>Copied to clipboard!</span>

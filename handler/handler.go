@@ -40,6 +40,11 @@ func HandleAllRecentEntries(ctx *gin.Context) {
 
 }
 
+func HandleAllRecentEntriesJson(ctx *gin.Context) {
+	res := storage.GetAllRecentUrlMappings()
+	ctx.JSON(http.StatusOK, res)
+}
+
 func HandleDeleteUrlById(ctx *gin.Context) {
 	uuid := ctx.Param("uuid")
 	storage.DeleteUrlMappingById(uuid)

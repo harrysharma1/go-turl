@@ -3,7 +3,7 @@
     <div class="p-6">
         <form id="shortUrlForm" class="mt-8 flex flex-col" method="post" action="/create-short-url">
             <div class="w-full max-w-sm min-w-[300px]">
-                <label for = "longUrl" class="block mb-2 text-sm text-slate-600"> Long URL</label>
+                <label for = "longUrl" class="block mb-2 text-sm text-slate-600">Long URL</label>
                 <input
                     class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                     name = "longUrl"
@@ -48,10 +48,22 @@
         .then(data =>{
             if (data.status === "created"){
                 form.reset();
-                window.location.href("/");
+                updateRecentUrls();
+                const toast = document.getElementById("toastMainCreated");
+                console.log(toast)
+                toast.classList.remove("hidden");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 3000)
             }
         })
         .catch(err =>{
+            const toastFail = document.getElementById("toastMainFailCreated")
+            document.getElementById("errorMessage").innerHTML = "Error copying to clipboard!"
+            toastFail.classList.remove("hidden")
+            setTimeout(() => {
+                toastFail.classList.add("hidden")
+            }, 5000)
             console.error(err)
         });
     });

@@ -1,16 +1,7 @@
 {{ define "body" }}
 <body>
-    <!-- <div id="toastMain" class="toast toast-top toast-end hidden">
-        <div class="alert alert-success">
-            <span>Copied to clipboard!</span>
-        </div>
-    </div>
-    <div id="toastMainFail" class="toast toast-top toast-end hidden">
-        <div class="alert alert-error">
-            <span id="errorMessage"></span>
-        </div>
-    </div> -->
     {{ template "navbar" .}}
+    {{ template "maintoasts" .}} 
     <div class="pt-6 pl-6">
         <div class="flex flex-col">
             {{ template "form" .}}
