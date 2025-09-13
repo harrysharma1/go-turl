@@ -8,6 +8,17 @@ jobs:
     strategy:
       matrix:
         go-version: ['1.24.x']
+    service:
+      redis:
+        image: redis:8.2.1
+        ports:
+          - 8080:8080
+        options: >-
+          --health-cmd "redis-cli -p 8080 ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+        command: ["redis-server", "--ports", "8080"]
     steps:
       - uses: actions/checkout@v5
       - name: Setup Go ${{ matrix.go-version }}
@@ -16,12 +27,15 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
         run: go version
+      - name: Install
       - name: Install Dependencies
         run: |
           go get github.com/go-redis/redis/v8
           go get -u github.com/gin-gonic/gin
           go get github.com/stretchr/testify
           go get github.com/itchyny/base58-go/cmd/base58
+      - name: Verify Redis Cache is still running
+        run: redis-cli -p 8080 ping
       - name: Run Tests
         run: |
           go test -timeout 30s -run $ turl/storage
