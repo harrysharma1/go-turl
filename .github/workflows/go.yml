@@ -15,7 +15,7 @@ jobs:
           - 8080:8080
         options: >-
           --entrypoint redis-server
-          redis:8.2.1 --port 8080
+          --port 8080
         
     steps:
       - uses: actions/checkout@v5
@@ -25,10 +25,9 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
         run: go version
-      - name: Redis Cache Health Check
+      - name: Install Redis CLI Tools for health checks
         run: |
-          sudo apt install redis-tools
-          redis-cli -p 8080 ping
+          sudo apt install -y redis-tools
       - name: Install Dependencies
         run: |
           go get github.com/go-redis/redis/v8
@@ -36,7 +35,17 @@ jobs:
           go get github.com/stretchr/testify
           go get github.com/itchyny/base58-go/cmd/base58
       - name: Verify Redis Cache is still running
-        run: redis-cli -p 8080 ping
+        run: |
+          for i in {1..5}; do
+            if redis-cli -p 8080 ping; then
+              echo "Redis is ready"
+              exit 0
+            fi
+            echo "Waiting on Redis"
+            sleep 2
+          done
+          echo "Redis did not start"
+          exit 1
       - name: Run Tests
         run: |
           go test -timeout 30s -run $ turl/storage
