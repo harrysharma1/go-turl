@@ -8,14 +8,6 @@ jobs:
     strategy:
       matrix:
         go-version: ['1.24.x']
-    services:
-      redis:
-        image: redis:8.2.1
-        ports:
-          - 8080:8080
-        options: >-
-          --entrypoint redis-server
-          --port 8080
         
     steps:
       - uses: actions/checkout@v5
@@ -25,8 +17,9 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
         run: go version
-      - name: Install Redis CLI Tools for health checks
+      - name: Install Redis for health checks
         run: |
+          sudo apt-get install redis
           sudo apt install -y redis-tools
       - name: Install Dependencies
         run: |
@@ -36,6 +29,8 @@ jobs:
           go get github.com/itchyny/base58-go/cmd/base58
       - name: Verify Redis Cache is still running
         run: |
+          sudo systemctl enable redis-server --port 8080
+          sudo systemctl start redis-server --port 8080
           for i in {1..5}; do
             if redis-cli -p 8080 ping; then
               echo "Redis is ready"
