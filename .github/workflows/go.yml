@@ -8,29 +8,37 @@ jobs:
     strategy:
       matrix:
         go-version: ['1.24.x']
+        redis-version: ['8.2.x']
         
     steps:
-      - uses: actions/checkout@v5
+      - name: Git checkout
+        uses: actions/checkout@v5
+
       - name: Setup Go ${{ matrix.go-version }}
         uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
+
       - name: Display Go version
         run: go version
-      - name: Install Redis for health checks
-        run: |
-          sudo apt-get install redis
-          sudo apt install -y redis-tools
+
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.7.0
+        with:
+          redis-version: ${{ matrix.redis-version }}
+
+      - name: Install Redis CLI tools
+        run: sudo apt install redis-tools
+        
       - name: Install Dependencies
         run: |
           go get github.com/go-redis/redis/v8
           go get -u github.com/gin-gonic/gin
           go get github.com/stretchr/testify
           go get github.com/itchyny/base58-go/cmd/base58
+
       - name: Verify Redis Cache is still running
-        run: |
-          sudo systemctl enable redis-server --port 8080
-          sudo systemctl start redis-server --port 8080
+        run: |  
           for i in {1..5}; do
             if redis-cli -p 8080 ping; then
               echo "Redis is ready"
@@ -41,11 +49,13 @@ jobs:
           done
           echo "Redis did not start"
           exit 1
+
       - name: Run Tests
         run: |
           go test -timeout 30s -run $ turl/storage
           go test -timeout 30s -run $ turl/handler
           go test -timeout 30s -run $ turl/urlshortener
+
       - name: Run Tests Coverage
         run: |
           go test -timeout 30s -run $ turl/storage -cover
