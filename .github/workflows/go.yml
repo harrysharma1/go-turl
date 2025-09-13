@@ -13,6 +13,9 @@ jobs:
         image: redis:8.2.1
         ports:
           - 8080:8080
+         options: >-
+          --entrypoint redis-server
+          redis:8.2.1 --port 8080
         
     steps:
       - uses: actions/checkout@v5
@@ -22,11 +25,8 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
         run: go version
-      - name: Start Redis
+      - name: Redis Cache Health Check
         run: |
-          docker run -d -p 8080:8080 --name redis redis:8.2.1 redis-server --port 8080
-          sleep 5
-          docker ps -a
           redis-cli -p 8080 ping
       - name: Install Dependencies
         run: |
