@@ -16,3 +16,10 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
         run: go version
+      - name: Install Dependencies
+        run: |
+          go get github.com/go-redis/redis/v8
+          go get -u github.com/gin-gonic/gin
+          go get github.com/stretchr/testify
+          go get github.com/itchyny/base58-go/cmd/base58
+
