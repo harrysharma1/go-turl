@@ -13,11 +13,7 @@ jobs:
         image: redis:8.2.1
         ports:
           - 8080:8080
-        options: >-
-          --health-cmd "redis-cli -p 8080 ping"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 5
+        
     steps:
       - uses: actions/checkout@v5
       - name: Setup Go ${{ matrix.go-version }}
