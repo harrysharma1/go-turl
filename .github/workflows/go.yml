@@ -19,7 +19,7 @@ jobs:
           --health-timeout 3s
           --health-retries 5
           --entrypoint "redis-server"
-        args: ["--port", "8080"]
+          redis-server --port 8080
     steps:
       - uses: actions/checkout@v5
       - name: Setup Go ${{ matrix.go-version }}
