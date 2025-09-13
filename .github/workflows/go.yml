@@ -40,7 +40,7 @@ jobs:
       - name: Verify Redis Cache is still running
         run: |  
           for i in {1..5}; do
-            if redis-cli -p 8080 ping; then
+            if redis-cli ping; then
               echo "Redis is ready"
               exit 0
             fi
