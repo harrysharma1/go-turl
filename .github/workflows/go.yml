@@ -27,6 +27,7 @@ jobs:
         run: go version
       - name: Redis Cache Health Check
         run: |
+          sudo apt install redis-tools
           redis-cli -p 8080 ping
       - name: Install Dependencies
         run: |
