@@ -22,4 +22,13 @@ jobs:
           go get -u github.com/gin-gonic/gin
           go get github.com/stretchr/testify
           go get github.com/itchyny/base58-go/cmd/base58
-
+      - name: Run Tests
+        run: |
+          go test -timeout 30s -run $ turl/storage
+          go test -timeout 30s -run $ turl/handler
+          go test -timeout 30s -run $ turl/urlshortener
+      - name: Run Tests Coverage
+        run: |
+          go test -timeout 30s -run $ turl/storage -cover
+          go test -timeout 30s -run $ turl/handler -cover
+          go test -timeout 30s -run $ turl/urlshortener -cover
