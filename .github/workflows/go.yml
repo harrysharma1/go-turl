@@ -18,8 +18,6 @@ jobs:
           --health-interval 5s
           --health-timeout 3s
           --health-retries 5
-          --entrypoint "redis-server"
-          redis-server --port 8080
     steps:
       - uses: actions/checkout@v5
       - name: Setup Go ${{ matrix.go-version }}
@@ -28,6 +26,12 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
         run: go version
+      - name: Start Redis
+        run: |
+          docker run -d -p 8080:8080 --name redis redis:8.2.1 redis-server --port 8080
+          sleep 5
+          docker ps -a
+          redis-cli -p 8080 ping
       - name: Install Dependencies
         run: |
           go get github.com/go-redis/redis/v8
